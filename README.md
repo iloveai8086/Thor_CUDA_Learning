@@ -86,7 +86,6 @@ python bench_flops.py --kernel matmul_v6_2_hilbert,matmul_v7a_hilbert_l1noalloc_
 
 ## TODO
 * 更多性能优化
-* FP8
 * MXFP8
 * NVFP4
 * CuTeDSL
