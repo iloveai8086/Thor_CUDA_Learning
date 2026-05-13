@@ -1,300 +1,93 @@
-## matmul_v1a
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)    Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ----------  -----------  ----------------------------------------------------------------------------------------------------
-     95.9    1,100,763,232        130  8,467,409.5  8,368,368.0  7,542,688  10,261,056    553,152.3  void matmul_v1_kernel<(int)256, (int)256, (bool)0>(CUtensorMap_st, CUtensorMap_st, __nv_bfloat16 *,…
-```
-## matmul_v1b
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     95.1      914,763,616        130  7,036,643.2  6,976,000.0  6,387,936  8,425,280    390,703.5  void matmul_v1_kernel<(int)256, (int)256, (bool)1>(CUtensorMap_st, CUtensorMap_st, __nv_bfloat16 *,…
-```
-## matmul_v2a
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     89.7      402,649,184        130  3,097,301.4  3,073,424.0  2,773,472  3,521,792    145,417.1  void matmul_v2_kernel<(int)256, (int)256, (bool)0>(CUtensorMap_st, CUtensorMap_st, __nv_bfloat16 *,…
-```
-## matmul_v2b
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     89.2      383,421,152        130  2,949,393.5  2,924,128.0  2,618,176  3,942,016    181,881.9  void matmul_v2_kernel<(int)256, (int)256, (bool)1>(CUtensorMap_st, CUtensorMap_st, __nv_bfloat16 *,…
-```
-## matmul_v3
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     89.1      382,196,416        130  2,939,972.4  2,853,840.0  2,673,664  3,508,736    196,508.8  void matmul_v3_kernel<(int)256, (int)128, (int)2>(CUtensorMap_st, CUtensorMap_st, __nv_bfloat16 *, …
-```
-## matmul_v3_2
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     89.0      377,643,552        130  2,904,950.4  2,823,872.0  2,667,872  3,695,168    198,010.2  void matmul_v3_2_kernel<(int)256, (int)128>(CUtensorMap_st, CUtensorMap_st, __nv_bfloat16 *, int, i…
-```
-## matmul_v3_cutedsl
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     90.7      456,314,208        130  3,510,109.3  3,437,168.0  2,988,896  4,475,392    304,566.6  void <unnamed>::vectorized_kernel<(int)256, (int)64, (int)4>(CUtensorMap_st, CUtensorMap_st, __nv_b…
-```
-## matmul_v4
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     87.4      325,484,960        130  2,503,730.5  2,452,672.0  2,407,296  3,836,384    147,325.3  void matmul_v4_kernel<(int)128, (int)64, (int)3>(CUtensorMap_st, CUtensorMap_st, __nv_bfloat16 *, i…
-```
-## matmul_v4_2
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     87.5      324,499,840        130  2,496,152.6  2,446,688.0  2,411,264  3,219,680    114,213.0  void matmul_v4_2_kernel<(int)128, (int)64, (int)3>(CUtensorMap_st, CUtensorMap_st, __nv_bfloat16 *,…
-```
-## cute_fp16_gemm_4_aot
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     78.6      173,129,856        131  1,321,602.0  1,211,456.0    982,240  2,265,024    373,843.3  kernel_cutlass_kernel_TiledMMA_ThrLayoutVMNK21111000_PermutationMNK____MMAAtom_ThrID21_ShapeMNK2562…
-```
-## matmul_v5
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     88.6      360,577,632        130  2,773,674.1  2,698,144.0  2,523,680  3,590,272    189,868.0  void matmul_v5_kernel<(int)256, (int)64, (int)2, (int)7, (bool)0>(CUtensorMap_st, CUtensorMap_st, _…
-```
-## matmul_v5_2
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     88.6      363,498,144        130  2,796,139.6  2,753,744.0  2,485,824  3,390,592    194,261.3  void matmul_v5_2_kernel<(int)256, (int)64, (int)2, (int)7, (bool)0>(CUtensorMap_st, CUtensorMap_st,…
-```
-## matmul_v6
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     80.2      189,000,608        130  1,453,850.8  1,454,240.0  1,266,272  1,707,008     95,666.3  void matmul_v6_kernel<(int)256, (int)64, (int)2, (int)7, (int)8, (bool)0, (bool)0, (bool)0, (bool)0…
-```
-## matmul_v6_2_g6
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     76.7      153,503,744        130  1,180,798.0  1,098,176.0    916,224  2,438,976    358,062.5  void matmul_v6_kernel<(int)256, (int)64, (int)2, (int)7, (int)6, (bool)0, (bool)1, (bool)0, (bool)0…
-```
+# Thor CUDA Learning
 
-## matmul_v6_2_hilbert
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     75.5      143,438,816        130  1,103,375.5  1,054,880.0    838,336  2,398,592    276,265.6  void matmul_v6_kernel<(int)256, (int)64, (int)2, (int)7, (int)6, (bool)0, (bool)0, (bool)0, (bool)1…
-```
-## matmul_v11_2
-```shell
-Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     75.2      141,593,952        130  1,089,184.2  1,050,576.0    878,752  2,162,880    195,155.7  void <unnamed>::matmul_v11_2_kernel<(int)256, (int)64, (int)2>(CUtensorMap_st, CUtensorMap_st, __nv…
-```
-## matmul_v12
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     76.0      148,379,072        130  1,141,377.5  1,114,592.0    901,824  2,255,904    281,320.2  void matmul_v12_kernel<(int)256, (int)64, (int)2, (int)7, (int)6, (bool)0, (bool)0, (bool)1, (bool)…
-```
-## matmul_v12_l1noalloc
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     75.5      143,810,208        130  1,106,232.4  1,112,656.0    898,112  2,258,112    231,542.1  void matmul_v12_kernel<(int)256, (int)64, (int)2, (int)7, (int)6, (bool)0, (bool)1, (bool)1, (bool)…
-```
-## matmul_v12_hilbert
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     75.7      145,225,344        130  1,117,118.0  1,026,800.0    818,752  2,224,192    338,113.3  void matmul_v12_kernel<(int)256, (int)64, (int)2, (int)7, (int)6, (bool)0, (bool)0, (bool)0, (bool)…
-```
-## matmul_v12_hilbert_l1noalloc
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     75.2      143,283,104        130  1,102,177.7  1,004,640.0    824,544  2,235,968    312,647.1  void matmul_v12_kernel<(int)256, (int)64, (int)2, (int)7, (int)6, (bool)0, (bool)1, (bool)0, (bool)…
-```
-## matmul_v12_clc_hilbert
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     74.8      138,444,704        130  1,064,959.3  1,017,136.0    828,768  2,240,224    263,956.8  void matmul_v12_kernel<(int)256, (int)64, (int)2, (int)7, (int)6, (bool)0, (bool)0, (bool)0, (bool)…
-```
-## torch.mm_bf16
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     75.5      144,458,336        130  1,111,218.0  1,025,712.0    829,088  2,315,104    330,428.1  nvjet_tst_128x256_64x6_2x1_2cta_v_bz_TNT
-```
+这是一个 CUDA GEMM 学习和实验仓库，主要围绕 NVIDIA Blackwell/Thor 平台上的矩阵乘法 kernel 做迭代优化。
 
-```shell
-nsys profile --stats=true --force-overwrite=true   -o nsys_matmul_v12_hilbert   python bench_flopsv2_single_kernel.py     --kernel torch.mm_bf16     --shape 4096,4096,4096     --warmup 30     --repeat-warmup 0     --iters 1     --repeats 100     --no-tegrastats     --no-verbose-build
-```
-## matmul_v7a
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     80.3      189,725,184        130  1,459,424.5  1,461,824.0  1,211,296  1,717,632     94,627.6  void matmul_v7_kernel_cutlass<(int)256, (int)2, (int)7, (bool)0, (bool)0>(CUtensorMap_st, CUtensorM…
-```
-## matmul_v7b
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     80.5      194,352,064        130  1,495,015.9  1,461,488.0  1,394,880  2,694,048    146,387.9  void matmul_v7_kernel_cutlass<(int)256, (int)2, (int)7, (bool)0, (bool)0>(CUtensorMap_st, CUtensorM…
-```
-## matmul_v7c
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     81.0      199,973,760        130  1,538,259.7  1,526,592.0  1,440,096  1,710,368     47,343.0  void matmul_v7_kernel_cutlass<(int)256, (int)2, (int)7, (bool)1, (bool)0>(CUtensorMap_st, CUtensorM…
-```
-## matmul_v7a_g6
-```
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     75.6      144,916,992        130  1,114,746.1  1,070,848.0    926,400  2,285,728    234,799.8  void matmul_v7_kernel_cutlass<(int)256, (int)2, (int)7, (int)6, (bool)0, (bool)0, (bool)1, (bool)0>…
-```
-## matmul_v7a_hilbert
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     75.0      141,274,880        130  1,086,729.8  1,038,016.0    844,512  2,219,072    277,010.4  void matmul_v7_kernel_cutlass<(int)256, (int)2, (int)7, (int)6, (bool)0, (bool)0, (bool)0, (bool)1>…
-```
-## matmul_v7a_hilbert_l1noalloc
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     74.8      139,722,976        130  1,074,792.1  1,006,400.0    820,544  4,379,712    379,158.0  void matmul_v7_kernel_cutlass<(int)256, (int)2, (int)7, (int)6, (bool)1, (bool)0, (bool)0, (bool)1>…
-```
-## matmul_v7a_hilbert_l1noalloc_tma_store
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     74.6      144,175,008        130  1,109,038.5    999,616.0    823,680  2,222,304    339,736.3  void matmul_v7_kernel_cutlass<(int)256, (int)2, (int)6, (int)6, (bool)1, (bool)0, (bool)0, (bool)1,…
-```
-## matmul_v7a_hilbert_l1noalloc_tma_store_prefetch
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     73.7      129,826,880        130    998,668.3    991,392.0    810,272  1,146,784     81,182.4  void matmul_v7_kernel_cutlass<(int)256, (int)2, (int)6, (int)6, (bool)1, (bool)0, (bool)0, (bool)1,…
-```
-## matmul_v8
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     81.5      204,628,224        130  1,574,063.3  1,551,888.0  1,478,400  1,856,256     69,307.2  void <unnamed>::matmul_v8_kernel_persistent<(int)256, (int)1, (int)4, (int)2>(CUtensorMap_st, CUten…
-```
-## matmul_v9
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     77.6      161,880,000        130  1,245,230.8  1,200,768.0  1,156,288  2,200,864    163,242.7  void matmul_v9_kernel<(int)256, (int)4, (int)20>(CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, in…
-```
-## deepgemm_fp8
-```shell
- Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-     60.3       81,336,544        131    620,889.6    591,584.0    530,848  1,259,392     95,833.4  void deep_gemm::sm100_fp8_gemm_1d1d_impl<(cute::UMMA::Major)0, (cute::UMMA::Major)0, (unsigned int)…
-```
-## fp8_cublas
-```shell
- Time (%)  Total Time (ns)  Instances  Avg (ns)   Med (ns)   Min (ns)  Max (ns)  StdDev (ns)                     Name                    
- --------  ---------------  ---------  ---------  ---------  --------  --------  -----------  -------------------------------------------
-    100.0      105,992,992        221  479,606.3  475,840.0   453,952   540,768     13,585.5  nvjet_qqtst_128x256_128x6_2x1_2cta_v_bz_TNT
-```
-## int8 cublas
-```shell
- Time (%)  Total Time (ns)  Instances  Avg (ns)   Med (ns)   Min (ns)  Max (ns)  StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  ---------  ---------  --------  --------  -----------  ----------------------------------------------------------------------------------------------------
-    100.0       74,742,816        120  622,856.8  615,760.0   566,016   720,832     25,789.9  cutlass3x_sm100_tensorop_i256x256x32gemm_s8_s8_s32_s32_s32_256x256x128_0_tnn_align16_2sm_bias_s32_r…
-```
-## nvfp4_cublas
-```shell
- Time (%)  Total Time (ns)  Instances  Avg (ns)   Med (ns)   Min (ns)  Max (ns)   StdDev (ns)                                                  Name                                                
- --------  ---------------  ---------  ---------  ---------  --------  ---------  -----------  ----------------------------------------------------------------------------------------------------
-    100.0       55,414,624        221  250,744.9  232,000.0   222,144  1,240,928    110,589.5  cutlass3x_sm100_bstensorop_s256x256x64gemm_block_scaled_ue4m3xf4_ue4m3xf4_f32_bf16_bf16_256x256x256…
-```
-**按 Median 排名**
+当前重点是 BF16 GEMM：从基础 tiled matmul 开始，逐步加入 TMA、cluster、CTA swizzle、Hilbert 调度、L1 no-alloc、TMA store、prefetch、tensor memory pipeline 等优化，并和 `torch.mm`、CuTe/CUTLASS、DeepGEMM、cuBLAS/cuBLASLt 做对照。
+
+完整 Nsight / profiling 原始记录见：[bf16/profile.md](bf16/profile.md)。
+
+## 排名
+
+以下结果来自当前记录中的 `4096 x 4096 x 4096` GEMM profiling，按 median latency 从低到高排列。详细原始输出在 [bf16/profile.md](bf16/profile.md)。
+
+| Rank | Kernel | Median | Avg | Min |
+| ---: | --- | ---: | ---: | ---: |
+| 1 | `nvfp4_cublas` | 0.232 ms | 0.251 ms | 0.222 ms |
+| 2 | `fp8_cublas` | 0.476 ms | 0.480 ms | 0.454 ms |
+| 3 | `deepgemm_fp8` | 0.592 ms | 0.621 ms | 0.531 ms |
+| 4 | `int8_cublas` | 0.616 ms | 0.623 ms | 0.566 ms |
+| 5 | `matmul_v7a_hilbert_l1noalloc_tma_store_prefetch` | 0.991 ms | 0.999 ms | 0.810 ms |
+| 6 | `matmul_v7a_hilbert_l1noalloc_tma_store` | 1.000 ms | 1.109 ms | 0.824 ms |
+| 7 | `matmul_v12_hilbert_l1noalloc` | 1.005 ms | 1.102 ms | 0.825 ms |
+| 8 | `matmul_v7a_hilbert_l1noalloc` | 1.006 ms | 1.075 ms | 0.821 ms |
+| 9 | `matmul_v12_clc_hilbert` | 1.017 ms | 1.065 ms | 0.829 ms |
+| 10 | `torch.mm_bf16` | 1.026 ms | 1.111 ms | 0.829 ms |
+| 11 | `matmul_v12_hilbert` | 1.027 ms | 1.117 ms | 0.819 ms |
+| 12 | `matmul_v7a_hilbert` | 1.038 ms | 1.087 ms | 0.845 ms |
+| 13 | `matmul_v11_2` | 1.051 ms | 1.089 ms | 0.879 ms |
+| 14 | `matmul_v6_2_hilbert` | 1.055 ms | 1.103 ms | 0.838 ms |
+| 15 | `matmul_v7a_g6` | 1.071 ms | 1.115 ms | 0.926 ms |
+| 16 | `matmul_v6_2_g6` | 1.098 ms | 1.181 ms | 0.916 ms |
+| 17 | `matmul_v12_l1noalloc` | 1.113 ms | 1.106 ms | 0.898 ms |
+| 18 | `matmul_v12` | 1.115 ms | 1.141 ms | 0.902 ms |
+| 19 | `matmul_v9` | 1.201 ms | 1.245 ms | 1.156 ms |
+| 20 | `cute_fp16_gemm_4_aot` | 1.211 ms | 1.322 ms | 0.982 ms |
+| 21 | `matmul_v6` | 1.454 ms | 1.454 ms | 1.266 ms |
+| 22 | `matmul_v7b` | 1.461 ms | 1.495 ms | 1.395 ms |
+| 23 | `matmul_v7a` | 1.462 ms | 1.459 ms | 1.211 ms |
+| 24 | `matmul_v7c` | 1.527 ms | 1.538 ms | 1.440 ms |
+| 25 | `matmul_v8` | 1.552 ms | 1.574 ms | 1.478 ms |
+| 26 | `matmul_v4_2` | 2.447 ms | 2.496 ms | 2.411 ms |
+| 27 | `matmul_v4` | 2.453 ms | 2.504 ms | 2.407 ms |
+| 28 | `matmul_v5` | 2.698 ms | 2.774 ms | 2.524 ms |
+| 29 | `matmul_v5_2` | 2.754 ms | 2.796 ms | 2.486 ms |
+| 30 | `matmul_v3_2` | 2.824 ms | 2.905 ms | 2.668 ms |
+| 31 | `matmul_v3` | 2.854 ms | 2.940 ms | 2.674 ms |
+| 32 | `matmul_v2b` | 2.924 ms | 2.949 ms | 2.618 ms |
+| 33 | `matmul_v2a` | 3.073 ms | 3.097 ms | 2.773 ms |
+| 34 | `matmul_v3_cutedsl` | 3.437 ms | 3.510 ms | 2.989 ms |
+| 35 | `matmul_v1b` | 6.976 ms | 7.037 ms | 6.388 ms |
+| 36 | `matmul_v1a` | 8.368 ms | 8.467 ms | 7.543 ms |
+
+## 目录
+
 ```text
- 1. nvfp4_cublas                                      0.2320 ms
- 2. fp8_cublas                                        0.4758 ms
- 3. deepgemm_fp8                                      0.5916 ms
- 4. int8 cublas                                       0.6158 ms
- 5. matmul_v7a_hilbert_l1noalloc_tma_store_prefetch   0.9914 ms
- 6. matmul_v7a_hilbert_l1noalloc_tma_store            0.9996 ms
- 7. matmul_v12_hilbert_l1noalloc                      1.0046 ms
- 8. matmul_v7a_hilbert_l1noalloc                      1.0064 ms
- 9. matmul_v12_clc_hilbert                            1.0171 ms
-10. torch.mm_bf16                                     1.0257 ms
-11. matmul_v12_hilbert                                1.0268 ms
-12. matmul_v7a_hilbert                                1.0380 ms
-13. matmul_v11_2                                      1.0506 ms
-14. matmul_v6_2_hilbert                               1.0549 ms
-15. matmul_v7a_g6                                     1.0708 ms
-16. matmul_v6_2_g6                                    1.0982 ms
-17. matmul_v12_l1noalloc                              1.1127 ms
-18. matmul_v12                                        1.1146 ms
-19. matmul_v9                                         1.2008 ms
-20. cute_fp16_gemm_4_aot                              1.2115 ms
-21. matmul_v6                                         1.4542 ms
-22. matmul_v7b                                        1.4615 ms
-23. matmul_v7a                                        1.4618 ms
-24. matmul_v7c                                        1.5266 ms
-25. matmul_v8                                         1.5519 ms
-26. matmul_v4_2                                       2.4467 ms
-27. matmul_v4                                         2.4527 ms
-28. matmul_v5                                         2.6981 ms
-29. matmul_v5_2                                       2.7537 ms
-30. matmul_v3_2                                       2.8239 ms
-31. matmul_v3                                         2.8538 ms
-32. matmul_v2b                                        2.9241 ms
-33. matmul_v2a                                        3.0734 ms
-34. matmul_v3_cutedsl                                 3.4372 ms
-35. matmul_v1b                                        6.9760 ms
-36. matmul_v1a                                        8.3684 ms
+bf16/
+  matmul.cpp        # PyTorch custom op registration
+  matmul_v*.cu      # BF16 GEMM kernel iterations
+  bench_flops.py    # correctness + benchmark driver
+  profiler.h        # device-side profiler
+  profile_utils.py  # profile trace helpers
+  profile.md        # full profiling notes
+  DeepGEMM/         # DeepGEMM reference
+
+cublas/
+  fp8_cublas.cu
+  i8_cublas.cu
+  nvfp4_cublaslt.cu
 ```
 
-**按 Avg 排名**
-```text
- 1. nvfp4_cublas                                      0.2507 ms
- 2. fp8_cublas                                        0.4796 ms
- 3. deepgemm_fp8                                      0.6209 ms
- 4. int8 cublas                                       0.6229 ms
- 5. matmul_v7a_hilbert_l1noalloc_tma_store_prefetch   0.9987 ms
- 6. matmul_v12_clc_hilbert                            1.0650 ms
- 7. matmul_v7a_hilbert_l1noalloc                      1.0748 ms
- 8. matmul_v7a_hilbert                                1.0867 ms
- 9. matmul_v11_2                                      1.0892 ms
-10. matmul_v12_hilbert_l1noalloc                      1.1022 ms
-11. matmul_v6_2_hilbert                               1.1034 ms
-12. matmul_v12_l1noalloc                              1.1062 ms
-13. matmul_v7a_hilbert_l1noalloc_tma_store            1.1090 ms
-14. torch.mm_bf16                                     1.1112 ms
-15. matmul_v7a_g6                                     1.1147 ms
-16. matmul_v12_hilbert                                1.1171 ms
-17. matmul_v12                                        1.1414 ms
-18. matmul_v6_2_g6                                    1.1808 ms
-19. matmul_v9                                         1.2452 ms
-20. cute_fp16_gemm_4_aot                              1.3216 ms
-21. matmul_v6                                         1.4539 ms
-22. matmul_v7a                                        1.4594 ms
-23. matmul_v7b                                        1.4950 ms
-24. matmul_v7c                                        1.5383 ms
-25. matmul_v8                                         1.5741 ms
-26. matmul_v4_2                                       2.4962 ms
-27. matmul_v4                                         2.5037 ms
-28. matmul_v5                                         2.7737 ms
-29. matmul_v5_2                                       2.7961 ms
-30. matmul_v3_2                                       2.9050 ms
-31. matmul_v3                                         2.9400 ms
-32. matmul_v2b                                        2.9494 ms
-33. matmul_v2a                                        3.0973 ms
-34. matmul_v3_cutedsl                                 3.5101 ms
-35. matmul_v1b                                        7.0366 ms
-36. matmul_v1a                                        8.4674 ms
+## 运行
+
+```shell
+cd bf16
+python bench_flops.py --shape 4096,4096,4096 --kernel matmul_v7a_hilbert_l1noalloc_tma_store_prefetch --no-verbose-build
 ```
+
+对比多个 kernel：
+
+```shell
+python bench_flops.py --kernel matmul_v6_2_hilbert,matmul_v7a_hilbert_l1noalloc_tma_store_prefetch,matmul_v12_clc_hilbert --no-verbose-build
+```
+
+## 备注
+
+- **建议使用nsight逐kernel评估性能**
+
+## TODO
+* 更多性能优化
+* FP8
+* MXFP8
+* NVFP4
+* CuTeDSL
+* ...
