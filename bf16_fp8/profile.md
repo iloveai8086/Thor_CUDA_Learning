@@ -1,3 +1,7 @@
+# BF16
+```shell
+nsys profile --stats=true --force-overwrite=true   -o dump   python bench_flopsv2_single_kernel.py     --kernel torch.mm_bf16     --shape 4096,4096,4096     --warmup 30     --repeat-warmup 0     --iters 1     --repeats 100     --no-tegrastats     --no-verbose-build
+```
 ## matmul_v1a
 ```shell
  Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)    Max (ns)   StdDev (ns)                                                  Name                                                
@@ -130,10 +134,6 @@ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (
  Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
  --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
      75.5      144,458,336        130  1,111,218.0  1,025,712.0    829,088  2,315,104    330,428.1  nvjet_tst_128x256_64x6_2x1_2cta_v_bz_TNT
-```
-
-```shell
-nsys profile --stats=true --force-overwrite=true   -o nsys_matmul_v12_hilbert   python bench_flopsv2_single_kernel.py     --kernel torch.mm_bf16     --shape 4096,4096,4096     --warmup 30     --repeat-warmup 0     --iters 1     --repeats 100     --no-tegrastats     --no-verbose-build
 ```
 ## matmul_v7a
 ```shell
@@ -297,4 +297,110 @@ nsys profile --stats=true --force-overwrite=true   -o nsys_matmul_v12_hilbert   
 34. matmul_v3_cutedsl                                 3.5101 ms
 35. matmul_v1b                                        7.0366 ms
 36. matmul_v1a                                        8.4674 ms
+```
+
+# FP8
+## matmul_fp8_v4_nocache
+```shell
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     45.4      158,809,376        130  1,221,610.6  1,064,544.0  1,053,920  1,769,376    242,952.8  matmul_fp8_v4_detail::matmul_fp8_v4_kernel(CUtensorMap_st, CUtensorMap_st, __nv_bfloat16 *, int, in…
+     40.3      140,959,872        260    542,153.4    530,784.0    517,376    976,800     62,611.2  matmul_fp8_v4_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)
+```
+## matmul_fp8_v5
+```shell
+     49.7      138,155,008        260    531,365.4    531,296.0    515,424    569,056      5,791.3  matmul_fp8_v5_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)    
+     33.3       92,539,840        130    711,844.9    708,176.0    703,776    780,608     13,450.8  void matmul_fp8_v5_detail::matmul_fp8_v5_kernel<(int)256, (int)128, (int)2>(CUtensorMap_st, CUtenso…
+```
+## matmul_fp8_v6(256,128,4)
+```shell
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     52.1      138,068,448        260    531,032.5    530,752.0    514,432    560,864      6,738.5  matmul_fp8_v6_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)    
+     29.8       78,920,448        130    607,080.4    603,200.0    596,864    690,112     13,836.2  void matmul_fp8_v6_detail::matmul_fp8_v6_kernel<(int)256, (int)128, (int)4>(CUtensorMap_st, CUtenso…
+```
+## matmul_fp8_v7_n256_k128_c2_s7
+```shell
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     55.1      137,925,952        260    530,484.4    530,816.0    516,352    567,872      6,164.9  matmul_fp8_v7_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)    
+     26.1       65,455,968        130    503,507.4    500,640.0    498,656    582,208     10,231.7  void matmul_fp8_v7_detail::matmul_fp8_v7_kernel<(int)256, (int)128, (int)2, (int)7>(CUtensorMap_st,…
+```
+## matmul_fp8_v8_plain
+```shell
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     58.4      138,205,632        260    531,560.1    530,976.0    515,744    568,544      6,087.0  matmul_fp8_v8_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)    
+     21.5       50,758,592        130    390,450.7    388,816.0    372,928    499,424     10,922.6  void matmul_fp8_v8_detail::matmul_fp8_v8_kernel<(int)256, (int)128, (int)2, (int)7, (int)6, (bool)0…
+```
+## matmul_fp8_v8_g6
+```shell
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     54.8      138,964,000        260    534,476.9    527,392.0    516,544  1,301,248     58,494.6  matmul_fp8_v8_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)    
+     26.7       67,737,888        130    521,060.7    513,376.0    494,880  1,414,720     80,780.1  void matmul_fp8_v8_detail::matmul_fp8_v8_kernel<(int)256, (int)128, (int)2, (int)7, (int)6, (bool)0…
+```
+## matmul_fp8_v8_g7
+```shell
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     54.0      137,157,152        260    527,527.5    526,128.0    517,056    558,976      6,160.5  matmul_fp8_v8_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)    
+     27.2       69,064,256        130    531,263.5    527,216.0    515,072    614,528     14,450.8  void matmul_fp8_v8_detail::matmul_fp8_v8_kernel<(int)256, (int)128, (int)2, (int)7, (int)7, (bool)0…
+```
+## matmul_fp8_v8_g8
+```shell
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     55.7      137,555,840        260    529,060.9    526,816.0    516,672    565,824      6,413.1  matmul_fp8_v8_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)    
+     24.9       61,616,128        130    473,970.2    477,376.0    452,672    523,296     14,416.3  void matmul_fp8_v8_detail::matmul_fp8_v8_kernel<(int)256, (int)128, (int)2, (int)7, (int)8, (bool)0…
+```
+## matmul_fp8_v8_g10
+```shell
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     56.4      138,016,416        260    530,832.4    528,528.0    516,288    889,408     23,179.1  matmul_fp8_v8_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)    
+     24.4       59,632,416        130    458,710.9    455,552.0    442,272    531,680     14,355.8  void matmul_fp8_v8_detail::matmul_fp8_v8_kernel<(int)256, (int)128, (int)2, (int)7, (int)10, (bool)…
+```
+## matmul_fp8_v8_g12
+```shell
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     56.2      137,520,512        260    528,925.0    526,304.0    517,120    568,448      7,307.0  matmul_fp8_v8_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)    
+     24.0       58,742,048        130    451,861.9    449,040.0    435,616    512,128     12,802.4  void matmul_fp8_v8_detail::matmul_fp8_v8_kernel<(int)256, (int)128, (int)2, (int)7, (int)12, (bool)…
+```
+## matmul_fp8_v8_hilbert
+```shell
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     56.4      137,769,952        260    529,884.4    528,480.0    516,192    556,864      5,469.6  matmul_fp8_v8_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)    
+     24.1       58,972,960        130    453,638.2    453,232.0    439,008    500,672      8,696.4  void matmul_fp8_v8_detail::matmul_fp8_v8_kernel<(int)256, (int)128, (int)2, (int)7, (int)6, (bool)0…
+```
+## matmul_fp8_v9_l1noalloc_tma_store_prefetch
+```shell
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     59.4      138,242,880        260    531,703.4    531,696.0    514,304    569,696      7,868.6  matmul_fp8_v9_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)    
+     20.1       46,903,200        130    360,793.8    359,280.0    357,344    452,416      8,735.8  void matmul_fp8_v9_detail::matmul_fp8_v9_kernel<(int)256, (int)128, (int)2, (int)6, (bool)1, (bool)…
+```
+## matmul_fp8_v9_l1noalloc
+```shell
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     58.3      137,638,144        260    529,377.5    527,616.0    517,376    560,384      5,825.7  matmul_fp8_v9_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)    
+     21.5       50,684,384        130    389,879.9    388,272.0    376,288    469,632     11,205.7  void matmul_fp8_v9_detail::matmul_fp8_v9_kernel<(int)256, (int)128, (int)2, (int)7, (bool)1, (bool)…
+```
+## matmul_fp8_v9_l1noalloc_tma_store
+```shell
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     59.5      138,209,152        260    531,573.7    532,368.0    519,392    558,624      6,234.7  matmul_fp8_v9_detail::cast_bf16_to_fp8_e4m3_kernel(const __nv_bfloat16 *, __nv_fp8_e4m3 *, long)    
+     20.2       46,987,104        130    361,439.3    360,080.0    358,272    430,880      7,192.8  void matmul_fp8_v9_detail::matmul_fp8_v9_kernel<(int)256, (int)128, (int)2, (int)6, (bool)1, (bool)…
+```
+## matmul_fp8_v3
+```shell
+[6/8] Executing 'cuda_gpu_kern_sum' stats report
+
+ Time (%)  Total Time (ns)  Instances   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------------------------------------------------------------------------------------
+     62.4       80,217,152        130    617,055.0    594,992.0    538,016  1,274,432    103,340.7  void deep_gemm::sm100_fp8_gemm_1d1d_impl<(cute::UMMA::Major)0, (cute::UMMA::Major)0, (unsigned int)…
 ```

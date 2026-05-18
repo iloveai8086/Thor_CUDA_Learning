@@ -2,13 +2,16 @@
 
 这是一个 CUDA GEMM 学习和实验仓库，主要围绕 NVIDIA Blackwell/Thor 平台上的矩阵乘法 kernel 做迭代优化。
 
-当前重点是 BF16 GEMM：从基础 tiled matmul 开始，逐步加入 TMA、cluster、CTA swizzle、Hilbert 调度、L1 no-alloc、TMA store、prefetch、tensor memory pipeline 等优化，并和 `torch.mm`、CuTe/CUTLASS、DeepGEMM、cuBLAS/cuBLASLt 做对照。
+当前主线包括两部分：
 
-完整 Nsight / profiling 原始记录见：[bf16/profile.md](bf16/profile.md)。
+- **BF16 GEMM**：从基础 tiled matmul 开始，逐步加入 TMA、cluster、CTA swizzle、Hilbert 调度、L1 no-alloc、TMA store、prefetch、tensor memory pipeline 等优化，并和 `torch.mm`、CuTe/CUTLASS、DeepGEMM、cuBLAS/cuBLASLt 做对照。
+- **FP8 GEMM**：新增 `matmul_fp8_v*.cu` 系列，围绕 BF16 输入量化到 FP8、FP8 MMA、L1 no-alloc、TMA store、prefetch、CTA grouping / Hilbert 调度等方向做迭代。其中 `matmul_fp8_v3` 是从 DeepGEMM SM100 FP8 1D1D 路线抽出来的本地参考实现。
 
-## 排名
+完整 Nsight / profiling 原始记录见：[bf16_fp8/profile.md](bf16_fp8/profile.md)。
 
-以下结果来自当前记录中的 `4096 x 4096 x 4096` GEMM profiling，按 median latency 从低到高排列。详细原始输出在 [bf16/profile.md](bf16/profile.md)。
+## BF16 / 参考库排名
+
+以下结果来自 `4096 x 4096 x 4096` GEMM profiling，按 median latency 从低到高排列。该表保留原有 BF16 kernel 迭代和参考实现对照，详细原始输出在 [bf16_fp8/profile.md](bf16_fp8/profile.md)。
 
 | Rank | Kernel | Median | Avg | Min |
 | ---: | --- | ---: | ---: | ---: |
@@ -49,17 +52,41 @@
 | 35 | `matmul_v1b` | 6.976 ms | 7.037 ms | 6.388 ms |
 | 36 | `matmul_v1a` | 8.368 ms | 8.467 ms | 7.543 ms |
 
+## FP8 排名
+
+以下结果同样来自 `4096 x 4096 x 4096` GEMM profiling，按 **GEMM kernel median latency** 从低到高排列。没有把 BF16 -> FP8 量化 kernel 时间合并进 GEMM median。`matmul_fp8_v3` 是从 DeepGEMM SM100 FP8 1D1D kernel 及其依赖抽出来的本地参考基线，后续 `v4+` 是在这个 FP8 方向上的自研迭代。
+
+| Rank | Kernel | GEMM median |
+| ---: | --- | ---: |
+| 1 | `matmul_fp8_v9_l1noalloc_tma_store_prefetch` | `359.280 us` |
+| 2 | `matmul_fp8_v9_l1noalloc_tma_store` | `360.080 us` |
+| 3 | `matmul_fp8_v9_l1noalloc` | `388.272 us` |
+| 4 | `matmul_fp8_v8_plain` | `388.816 us` |
+| 5 | `matmul_fp8_v8_g12` | `449.040 us` |
+| 6 | `matmul_fp8_v8_hilbert` | `453.232 us` |
+| 7 | `matmul_fp8_v8_g10` | `455.552 us` |
+| 8 | `matmul_fp8_v8_g8` | `477.376 us` |
+| 9 | `matmul_fp8_v7_n256_k128_c2_s7` | `500.640 us` |
+| 10 | `matmul_fp8_v8_g6` | `513.376 us` |
+| 11 | `matmul_fp8_v8_g7` | `527.216 us` |
+| 12 | `matmul_fp8_v3` | `594.992 us` |
+| 13 | `matmul_fp8_v6(256,128,4)` | `603.200 us` |
+| 14 | `matmul_fp8_v5` | `708.176 us` |
+| 15 | `matmul_fp8_v4_nocache` | `1064.544 us` |
+
 ## 目录
 
 ```text
-bf16/
-  matmul.cpp        # PyTorch custom op registration
-  matmul_v*.cu      # BF16 GEMM kernel iterations
-  bench_flops.py    # correctness + benchmark driver
-  profiler.h        # device-side profiler
-  profile_utils.py  # profile trace helpers
-  profile.md        # full profiling notes
-  DeepGEMM/         # DeepGEMM reference
+bf16_fp8/
+  matmul.cpp              # PyTorch custom op registration
+  matmul_v*.cu            # BF16 GEMM kernel iterations
+  matmul_fp8_v*.cu        # FP8 GEMM kernel iterations
+  matmul_fp8_v3_common.h  # DeepGEMM SM100 FP8 1D1D local extraction for v3
+  bench_flops.py          # correctness + benchmark driver
+  profiler.h              # device-side profiler
+  profile_utils.py        # profile trace helpers
+  profile.md              # full profiling notes
+  DeepGEMM/               # DeepGEMM reference and local headers
 
 cublas/
   fp8_cublas.cu
@@ -69,24 +96,40 @@ cublas/
 
 ## 运行
 
+单个 BF16 kernel：
+
 ```shell
-cd bf16
+cd bf16_fp8
 python bench_flops.py --shape 4096,4096,4096 --kernel matmul_v7a_hilbert_l1noalloc_tma_store_prefetch --no-verbose-build
 ```
 
-对比多个 kernel：
+单个 FP8 kernel：
 
 ```shell
-python bench_flops.py --kernel matmul_v6_2_hilbert,matmul_v7a_hilbert_l1noalloc_tma_store_prefetch,matmul_v12_clc_hilbert --no-verbose-build
+python bench_flops.py --shape 4096,4096,4096 --kernel matmul_fp8_v9_l1noalloc_tma_store_prefetch --no-verbose-build
+```
+
+对比多个 FP8 kernel：
+
+```shell
+python bench_flops.py --shape 4096,4096,4096 --kernel matmul_fp8_v9_l1noalloc_tma_store_prefetch,matmul_fp8_v9_l1noalloc_tma_store,matmul_fp8_v8_plain,matmul_fp8_v7_n256_k128_c2_s7,matmul_fp8_v3 --no-verbose-build
+```
+
+用 Nsight Systems 采样单个 kernel：
+
+```shell
+nsys profile --stats=true --force-overwrite=true -o dump python bench_flops.py --shape 4096,4096,4096 --kernel matmul_fp8_v9_l1noalloc_tma_store_prefetch --warmup 30 --iters 100 --no-verbose-build
 ```
 
 ## 备注
 
-- **建议使用nsight逐kernel评估性能**
+- FP8 表格里的时间是 GEMM kernel 本体 median；如果评估端到端路径，需要同时看量化 kernel 和调度开销。
+- 建议用 Nsight 逐 kernel 评估性能，避免只看 Python 端总耗时。
+- 当前主要面向 `4096 x 4096 x 4096` 形状，其他 shape 需要单独验证。
 
 ## TODO
-* 更多性能优化
-* MXFP8
-* NVFP4
-* CuTeDSL
-* ...
+
+- 系统性比较量化开销和 GEMM 本体开销。
+- 扩展更多 shape 的 profiling 记录。
+- MXFP8 / NVFP4。
+- CuTeDSL。

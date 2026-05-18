@@ -53,6 +53,56 @@ MatmulFn matmul_v12_hilbert;
 MatmulFn matmul_v12_hilbert_l1noalloc;
 MatmulFn matmul_v12_clc_hilbert;
 
+at::Tensor matmul_fp8_v1(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v2(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v3(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v4(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v4_nocache(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v4_torch_quant(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v4_cublaslt(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v5(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v5_cache(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6_n128_k128_s1(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6_n128_k128_s2(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6_n128_k128_s3(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6_n128_k128_s4(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6_n256_k128_s1(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6_n256_k128_s2(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6_n256_k128_s3(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6_n256_k128_s4(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6_n128_k256_s1(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6_n128_k256_s2(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6_n128_k256_s3(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6_n256_k256_s1(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v6_n256_k256_s2(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v7(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v7_n256_k128_c2_s4(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v7_n256_k128_c2_s5(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v7_n256_k128_c2_s6(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v7_n256_k128_c2_s7(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v7_n256_k256_c2_s2(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v7_n256_k256_c2_s3(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v8(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v8_plain(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v8_g4(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v8_g5(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v8_g6(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v8_g7(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v8_g8(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v8_g10(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v8_g12(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v8_hilbert(const at::Tensor& A, const at::Tensor& B);
+at::Tensor profile_matmul_fp8_v8_g6(
+    const at::Tensor& A, const at::Tensor& B, at::Tensor& profiler, int64_t num_entries);
+at::Tensor profile_matmul_fp8_v8_hilbert(
+    const at::Tensor& A, const at::Tensor& B, at::Tensor& profiler, int64_t num_entries);
+at::Tensor matmul_fp8_v9(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v9_l1noalloc(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v9_l1noalloc_tma_store(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v9_l1noalloc_tma_store_prefetch(const at::Tensor& A, const at::Tensor& B);
+at::Tensor matmul_fp8_v10_fused_ab(const at::Tensor& A, const at::Tensor& B);
+
 template <MatmulFn matmul_fn>
 at::Tensor matmul(const at::Tensor& A, const at::Tensor& B) {
   int M = A.size(0);
@@ -160,6 +210,55 @@ TORCH_LIBRARY(my_matmul, m) {
   m.def("matmul_v12_hilbert(Tensor A, Tensor B) -> Tensor", &matmul<matmul_v12_hilbert>);
   m.def("matmul_v12_hilbert_l1noalloc(Tensor A, Tensor B) -> Tensor", &matmul<matmul_v12_hilbert_l1noalloc>);
   m.def("matmul_v12_clc_hilbert(Tensor A, Tensor B) -> Tensor", &matmul<matmul_v12_clc_hilbert>);
+  m.def("matmul_fp8_v1(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v1);
+  m.def("matmul_fp8_v2(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v2);
+  m.def("matmul_fp8_v3(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v3);
+  m.def("matmul_fp8_v4(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v4);
+  m.def("matmul_fp8_v4_nocache(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v4_nocache);
+  m.def("matmul_fp8_v4_torch_quant(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v4_torch_quant);
+  m.def("matmul_fp8_v4_cublaslt(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v4_cublaslt);
+  m.def("matmul_fp8_v5(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v5);
+  m.def("matmul_fp8_v5_cache(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v5_cache);
+  m.def("matmul_fp8_v6(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6);
+  m.def("matmul_fp8_v6_n128_k128_s1(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6_n128_k128_s1);
+  m.def("matmul_fp8_v6_n128_k128_s2(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6_n128_k128_s2);
+  m.def("matmul_fp8_v6_n128_k128_s3(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6_n128_k128_s3);
+  m.def("matmul_fp8_v6_n128_k128_s4(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6_n128_k128_s4);
+  m.def("matmul_fp8_v6_n256_k128_s1(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6_n256_k128_s1);
+  m.def("matmul_fp8_v6_n256_k128_s2(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6_n256_k128_s2);
+  m.def("matmul_fp8_v6_n256_k128_s3(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6_n256_k128_s3);
+  m.def("matmul_fp8_v6_n256_k128_s4(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6_n256_k128_s4);
+  m.def("matmul_fp8_v6_n128_k256_s1(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6_n128_k256_s1);
+  m.def("matmul_fp8_v6_n128_k256_s2(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6_n128_k256_s2);
+  m.def("matmul_fp8_v6_n128_k256_s3(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6_n128_k256_s3);
+  m.def("matmul_fp8_v6_n256_k256_s1(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6_n256_k256_s1);
+  m.def("matmul_fp8_v6_n256_k256_s2(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v6_n256_k256_s2);
+  m.def("matmul_fp8_v7(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v7);
+  m.def("matmul_fp8_v7_n256_k128_c2_s4(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v7_n256_k128_c2_s4);
+  m.def("matmul_fp8_v7_n256_k128_c2_s5(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v7_n256_k128_c2_s5);
+  m.def("matmul_fp8_v7_n256_k128_c2_s6(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v7_n256_k128_c2_s6);
+  m.def("matmul_fp8_v7_n256_k128_c2_s7(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v7_n256_k128_c2_s7);
+  m.def("matmul_fp8_v7_n256_k256_c2_s2(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v7_n256_k256_c2_s2);
+  m.def("matmul_fp8_v7_n256_k256_c2_s3(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v7_n256_k256_c2_s3);
+  m.def("matmul_fp8_v8(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v8);
+  m.def("matmul_fp8_v8_plain(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v8_plain);
+  m.def("matmul_fp8_v8_g4(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v8_g4);
+  m.def("matmul_fp8_v8_g5(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v8_g5);
+  m.def("matmul_fp8_v8_g6(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v8_g6);
+  m.def("matmul_fp8_v8_g7(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v8_g7);
+  m.def("matmul_fp8_v8_g8(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v8_g8);
+  m.def("matmul_fp8_v8_g10(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v8_g10);
+  m.def("matmul_fp8_v8_g12(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v8_g12);
+  m.def("matmul_fp8_v8_hilbert(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v8_hilbert);
+  m.def("profile_matmul_fp8_v8_g6(Tensor A, Tensor B, Tensor(a!) profiler, int num_entries) -> Tensor",
+        &profile_matmul_fp8_v8_g6);
+  m.def("profile_matmul_fp8_v8_hilbert(Tensor A, Tensor B, Tensor(a!) profiler, int num_entries) -> Tensor",
+        &profile_matmul_fp8_v8_hilbert);
+  m.def("matmul_fp8_v9(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v9);
+  m.def("matmul_fp8_v9_l1noalloc(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v9_l1noalloc);
+  m.def("matmul_fp8_v9_l1noalloc_tma_store(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v9_l1noalloc_tma_store);
+  m.def("matmul_fp8_v9_l1noalloc_tma_store_prefetch(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v9_l1noalloc_tma_store_prefetch);
+  m.def("matmul_fp8_v10_fused_ab(Tensor A, Tensor B) -> Tensor", &matmul_fp8_v10_fused_ab);
 
   m.def("profile_matmul_v5(Tensor A, Tensor B, Tensor(a!) profiler, int num_entries) -> Tensor",
         &profile_matmul<profile_matmul_v5>);
